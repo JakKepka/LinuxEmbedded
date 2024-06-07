@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload your files</title>
+    <style>
+        body {
+            background-color: #ADD8E6; 
+        }
+    </style>
+</head>
+<body>
+    <h1>Upload File</h1>
+    <form method="POST" action="/upload" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <input type="password" name="password" placeholder="Enter Password">
+        <input type="submit" value="Upload">
+    </form>
+    <button onclick="location.reload()">Odśwież</button> 
+    <ul>
+        {% for file in files %}
+        <li>
+            <a href="{{ url_for('download', filename=file) }}">{{ file }}</a>
+            <form id="delete_form_{{ loop.index }}" method="POST" action="/delete/{{ file }}">
+                <input type="password" name="password" placeholder="Enter Password">
+                <input type="submit" value="Delete" onclick="return validatePassword({{ loop.index }})">
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+    <script>
+        function validatePassword(index) {
+            var password = document.getElementsByName("password")[index - 1].value;
+            return password === "root";
+        }
+    </script>
+</body>
+</html>

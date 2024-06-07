@@ -1,0 +1,26 @@
+#!/bin/sh
+#/etc/init.d
+PIDFILE="/var/run/web_server.pid"
+
+case "$1" in
+    start)
+        echo "Starting web server..."
+        nohup python3 /root/app.py > /dev/null 2>&1 &
+        echo $! > "$PIDFILE"
+        ;;
+    stop)
+        echo "Stopping web server..."
+        if [ -f "$PIDFILE" ]; then
+            kill $(cat "$PIDFILE")
+            rm "$PIDFILE"
+        else
+            echo "Web server not running."
+        fi
+        ;;
+    *)
+        echo "Usage: /etc/init.d/S99web_server {start|stop}"
+        exit 1
+        ;;
+esac
+
+exit 0

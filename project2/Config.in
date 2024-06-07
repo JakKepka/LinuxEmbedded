@@ -1,0 +1,6 @@
+config BR2_PACKAGE_SRP
+    bool "SRP"
+    depends on BR2_PACKAGE_C_PERIPHERY
+    help
+        Game SRP using ncurses
+        http://www.paulgriffiths.net/program/c/curworm.php
